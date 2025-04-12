@@ -1,13 +1,19 @@
 import streamlit as st
 import requests
 
+# Plugin and endpoint constants
+PLUGIN_IDS = ["plugin-1712327325", "plugin-1713962163", "plugin-1718116202"]
+ENDPOINT_ID = "predefined-openai-gpt4o"
+RESPONSE_MODE = "sync"
+REASONING_MODE = "medium"
+
 def create_chat_session(api_key, external_user_id):
     create_session_url = 'https://api.on-demand.io/chat/v1/sessions'
     create_session_headers = {
         'apikey': api_key
     }
     create_session_body = {
-        'pluginIds': [],
+        'pluginIds': [],  # Leave empty during creation
         'externalUserId': external_user_id
     }
 
@@ -21,23 +27,29 @@ def submit_query(api_key, session_id, query):
         'apikey': api_key
     }
     submit_query_body = {
-        'endpointId': 'predefined-openai-gpt4o',
+        'endpointId': ENDPOINT_ID,
         'query': query,
-        'pluginIds': ['plugin-1713962163', 'plugin-1716334779'],
-        'responseMode': 'sync'
+        'pluginIds': PLUGIN_IDS,
+        'responseMode': RESPONSE_MODE,
+        'reasoningMode': REASONING_MODE
     }
 
     query_response = requests.post(submit_query_url, headers=submit_query_headers, json=submit_query_body)
     return query_response.json()
 
 def main():
-    st.title("On-Demand Agents")
-    st.image("https://images.playground.com/eb88196190f54ea2ada0973ae81ebfc3.jpeg")
+    # Input fields for the title and image URL
+    title = st.text_input("Hansen Search Group Linkin Agent")
+    image_url = st.text_input("https://media.licdn.com/dms/image/v2/C4E0BAQEH9HeXXfJdyg/company-logo_100_100/company-logo_100_100/0/1630598494090?e=1749686400&v=beta&t=o5UdqPe1Iz7lPmWj6DOigwNcgpdsTlxhMNCSGmziIAQ")
+
+    # Display title and image
+    st.title(title)
+    st.image(image_url, use_column_width=True)
 
     # Sidebar for API key and external user ID
     st.sidebar.header("API Configuration")
     api_key = st.sidebar.text_input("Enter API Key", type="password")
-    external_user_id = st.sidebar.text_input("Enter External User ID", type = "password")
+    external_user_id = st.sidebar.text_input("Enter External User ID", type="password")
 
     if not api_key or not external_user_id:
         st.warning("Please enter your API key and external user ID in the sidebar.")
