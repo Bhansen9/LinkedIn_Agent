@@ -38,15 +38,9 @@ def submit_query(api_key, session_id, query):
     return query_response.json()
 
 def main():
-    # Input fields for the title and image URL
-    title = st.text_input("Hansen Search Group Linkin Agent")
-    image_url = st.text_input("https://media.licdn.com/dms/image/v2/C4E0BAQEH9HeXXfJdyg/company-logo_100_100/company-logo_100_100/0/1630598494090?e=1749686400&v=beta&t=o5UdqPe1Iz7lPmWj6DOigwNcgpdsTlxhMNCSGmziIAQ")
+    st.title("On-Demand Agents")
+    st.image("https://images.playground.com/eb88196190f54ea2ada0973ae81ebfc3.jpeg")
 
-    # Display title and image
-    st.title(title)
-    st.image(image_url, use_column_width=True)
-
-    # Sidebar for API key and external user ID
     st.sidebar.header("API Configuration")
     api_key = st.sidebar.text_input("Enter API Key", type="password")
     external_user_id = st.sidebar.text_input("Enter External User ID", type="password")
